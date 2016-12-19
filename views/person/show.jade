@@ -1,0 +1,45 @@
+extends ../layout
+
+mixin tabulka(data)
+	table.show
+		thead
+			th ID
+			th Křestní
+			th Příjmení
+			th Email
+			th Výška
+			th Datum založení
+			th Poslední editace
+		tbody
+			- for (index in data) {
+				tr
+					td=data[index].id
+					td=data[index].first_name
+					td=data[index].last_name
+					td=data[index].email
+					td=data[index].height
+					td=data[index].createdAt
+					td=data[index].updatedAt
+			- }
+
+block content
+	h1 Toto je výpis všech dat v DB
+	+tabulka(data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
