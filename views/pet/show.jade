@@ -1,0 +1,37 @@
+extends ../layout
+
+mixin tabulka(data)
+	table.show
+		thead
+			th ID
+			th Jméno
+			th Typ
+		tbody
+			- for (index in data) {
+				tr
+					td=data[index].id
+					td=data[index].name
+					td=data[index].type
+			- }
+
+block content
+	h1 Toto je výpis všech mazlíčků v DB
+	+tabulka(data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

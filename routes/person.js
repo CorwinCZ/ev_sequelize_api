@@ -11,6 +11,10 @@ router.get('/show', function(req, res, next) {
 	// Lists all persons in DB
 	models.Person.findAll({
 		raw: true,
+		include: [{
+			model: models.Pet,
+			where: { personId: Sequelize.col('Person.id') }
+		}]
 	}).then(function(dbData) {
 		console.log('data jsou', dbData)
 		res.render('person/show', {'data': dbData})
