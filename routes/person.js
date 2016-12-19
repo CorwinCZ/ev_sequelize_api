@@ -1,6 +1,7 @@
-var models  = require('../models');
-var express = require('express');
-var router = express.Router();
+let models  = require('../models');
+let express = require('express');
+let router = express.Router();
+let Sequelize = require('sequelize');
 
 router.get('/', function(req, res, next) {
 	res.render('person/index', {'title': 'Poky person'})
@@ -24,22 +25,27 @@ router.get('/add', function(req, res, next) {
 router.post('/insert', function(req, res, next) {
 	// inserts data to DB
 	console.log('dostal jsem', req.body)
-	models.Person.create(req.body);
+	models.Person
+		.create(req.body)
+		.then(function() {
+			console.log('Vše proběhlo OK');
+		})
+		.catch(Sequelize.ValidationError, function(error) {
+			console.log('první catch máme error', error.message);
+		})
+		.catch(function(error) {
+			cosnole.log('Druhý error');
+		});
 
-
-	res.render('person/add', {})		// TODO - change this to send succes / fail object, not template
+	res.render('person/add', {})
+	// res.json({"poky": "doky"})		// TODO - change this to send succes / fail object, not template
 
 });
 
 /*
 TODO
 
-
-Napojit tento projekt na můj GitHub, ať to pak můžu poslat ostatním.
-	* Dodělat readme file
-
-sepsat midleware který zkontroluje data zda jsou v pořádku, až poté pustí ukládací
-Využít Sequelize migrace k přidání pár sloupců
+Využít Sequelize migrace k přidání pár sloupců -- DONE
 	* 
 vytvořit novou tabulku co bude mít na person 1:N vazbu a otestovat sosání dat z ní (ukládání asi není potřeba)
 
