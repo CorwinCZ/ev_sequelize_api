@@ -1,0 +1,29 @@
+{
+  "development": {
+    "username": "SAMPLE",
+    "password": "SAMPLE",
+    "database": "SAMPLE",
+    "host": "SAMPLE",
+    "dialect": "mysql",
+    "define": {
+      "freezeTableName": true
+    }
+  },
+  "test": {
+    "username": "SAMPLE",
+    "password": "SAMPLE",
+    "database": "SAMPLE",
+    "host": "SAMPLE",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "SAMPLE",
+    "password": "SAMPLE",
+    "database": "SAMPLE",
+    "host": "SAMPLE",
+    "dialect": "mysql"
+  },
+  "define": {
+    "freezeTableName": true
+  }
+}
