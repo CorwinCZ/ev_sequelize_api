@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+ 
+// Needed for onTouchTap 
+// http://stackoverflow.com/a/34015469/988941 
+injectTapEventPlugin();
+
 class AddPerson extends Component {
 	constructor() {
 		super();
@@ -22,7 +34,10 @@ class AddPerson extends Component {
 				: '';
 		return (
 			<div>
-				<button onClick={this.toogleShow.bind(this)}>{this.state.show ? 'Skrýt formulář' : 'Zobrazit formulář pro přidání person'}</button>
+				{/*<button onClick={this.toogleShow.bind(this)}>{this.state.show ? 'Skrýt formulář' : 'Zobrazit formulář pro přidání person'}</button>*/}
+
+				<RaisedButton onClick={this.toogleShow.bind(this)} label={this.state.show ? 'Skrýt formulář' : 'Zobrazit formulář pro přidání person'} />
+
 				{form_elem}
 			</div>
 		)
@@ -80,23 +95,28 @@ class PersonForm extends Component {
 	render() {
 		return (
 			<div >
-				<div>
-					<label>Křestní</label>
-					<input value={this.state.first_name} onChange={this.handleChangeFirstName} />
-				</div>
-				<div>
-					<label>Příjmení</label>
-					<input value={this.state.last_name} onChange={this.handleChangeLastName} />
-				</div>
-				<div>
-					<label>Email</label>
-					<input value={this.state.email} onChange={this.handleChangeEmail} />
-				</div>
-				<div>
-					<label>Výška</label>
-					<input value={this.state.height} onChange={this.handleChangeHeight} />
-				</div>
-				<button onClick={this.submitData.bind(this)}>Odeslat data</button>
+				<TextField 
+					floatingLabelText="Křestní jméno"
+					defaultValue={this.state.first_name}
+					onChange={this.handleChangeFirstName}
+				/><br />
+				<TextField 
+					floatingLabelText="Příjmení"
+					defaultValue={this.state.last_name}
+					onChange={this.handleChangeLastName}
+				/><br />
+				<TextField 
+					floatingLabelText="Email"
+					defaultValue={this.state.email}
+					onChange={this.handleChangeEmail}
+				/><br />
+				<TextField 
+					floatingLabelText="Výška"
+					defaultValue={this.state.height}
+					onChange={this.handleChangeHeight}
+				/><br />
+				<RaisedButton onClick={this.submitData.bind(this)} label="Odeslat data" />
+				{/*<button onClick={this.submitData.bind(this)}>Odeslat data</button>*/}
 			</div>
 		)
 	}
@@ -163,10 +183,30 @@ class PersonTable extends Component {
 		let dataRowList = this.state.data.map((row, index) =>
 			<PersonTableRow data={row} key={index} />
 		);
+		let dataRowListMaterial = this.state.data.map((row, index) =>
+			<PersonTableRowMaterial data={row} key={index} />
+		);
 
 		return (
 			<div>
-				<table>
+				<Table selectable={false}>
+					<TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+						<TableRow>
+							<TableHeaderColumn>ID</TableHeaderColumn>
+							<TableHeaderColumn>Křestní</TableHeaderColumn>
+							<TableHeaderColumn>Příjmení</TableHeaderColumn>
+							<TableHeaderColumn>Email</TableHeaderColumn>
+							<TableHeaderColumn>Výška</TableHeaderColumn>
+							<TableHeaderColumn>Datum Založení</TableHeaderColumn>
+							<TableHeaderColumn>Poslední editace</TableHeaderColumn>
+							<TableHeaderColumn>Další data</TableHeaderColumn>
+						</TableRow>
+					</TableHeader>
+					<TableBody displayRowCheckbox={false}>
+						{dataRowListMaterial}
+					</TableBody>
+				</Table>
+				{/*<table>
 					<thead>
 						<tr>
 							<th>ID</th>
@@ -182,11 +222,27 @@ class PersonTable extends Component {
 					<tbody>
 						{dataRowList}
 					</tbody>
-				</table>
-				<button onClick={this.reloadData.bind(this)}>Reload table</button>
+				</table>*/}
+				<RaisedButton onClick={this.reloadData.bind(this)} label="Reload table" />
+				{/*<button onClick={this.reloadData.bind(this)}>Reload table</button>*/}
 			</div>
 		)
 	}
+}
+
+const PersonTableRowMaterial = function(props) {
+	return (
+		<TableRow>
+			<TableRowColumn>{props.data.id}</TableRowColumn>
+			<TableRowColumn>{props.data.first_name}</TableRowColumn>
+			<TableRowColumn>{props.data.last_name}</TableRowColumn>
+			<TableRowColumn>{props.data.email}</TableRowColumn>
+			<TableRowColumn>{props.data.height}</TableRowColumn>
+			<TableRowColumn>{props.data.createdAt}</TableRowColumn>
+			<TableRowColumn>{props.data.updatedAt}</TableRowColumn>
+			<TableRowColumn>{props.data.additional_data}</TableRowColumn>
+		</TableRow>
+	)
 }
 
 const PersonTableRow = function(props) {
@@ -215,14 +271,17 @@ const LoadingData = function(props) {
 class App extends Component {
 	render() {
 		return (
-			<div className="App">
-				<div className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<h2>Test react + express</h2>
+			<MuiThemeProvider>
+				<div className="App">
+					
+					<div className="App-header">
+						<img src={logo} className="App-logo" alt="logo" />
+						<h2>Test react + express</h2>
+					</div>
+					<AddPerson />
+					<PersonTable />					
 				</div>
-				<AddPerson />
-				<PersonTable />
-			</div>
+			</MuiThemeProvider>
 		);
 	}
 }
