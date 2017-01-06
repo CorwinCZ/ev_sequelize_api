@@ -7,6 +7,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Tabs, Tab} from 'material-ui/Tabs';
+
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
  
@@ -32,6 +34,8 @@ class AddPerson extends Component {
 		let form_elem = this.state.show ? 
 				<PersonForm />
 				: '';
+		return <PersonForm />
+
 		return (
 			<div>
 				{/*<button onClick={this.toogleShow.bind(this)}>{this.state.show ? 'Skrýt formulář' : 'Zobrazit formulář pro přidání person'}</button>*/}
@@ -94,7 +98,7 @@ class PersonForm extends Component {
 
 	render() {
 		return (
-			<div >
+			<div className="addPerson">
 				<TextField 
 					floatingLabelText="Křestní jméno"
 					defaultValue={this.state.first_name}
@@ -278,8 +282,14 @@ class App extends Component {
 						<img src={logo} className="App-logo" alt="logo" />
 						<h2>Test react + express</h2>
 					</div>
-					<AddPerson />
-					<PersonTable />					
+					<Tabs>
+						<Tab label="Přehled dat">
+							<PersonTable />
+						</Tab>
+						<Tab label="Přidat kontakt">
+							<AddPerson />
+						</Tab>
+					</Tabs>
 				</div>
 			</MuiThemeProvider>
 		);

@@ -22,3 +22,8 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.addPerson {
+  margin-left: 40%;
+  width: 500px;
+}
